@@ -8,6 +8,9 @@
 - name: put mysql.rb
   template: src=mysql.rb dest=/root/mysql-dockerized/mysql.rb
 
+- name: put createdb.sh
+  template: src=createdb.sh dest=/root/mysql-dockerized/createdb.sh mode=0755
+
 - name: build a Docker image for MySQL
   command: docker build -t gitinsky/mysql:0.1.0 --rm /root/mysql-dockerized
 
@@ -20,10 +23,9 @@
   command: chown -R {{ mysql_uid }}:{{ mysql_gid }} {{ ext_mysql_volume }}
   when: result|failed
 
-#- name: put my.cnf
-#  template: src=my.cnf dest={{ ext_mysql_volume }}/my.cnf
+- name: put my.cnf
+  template: src=my.cnf dest={{ ext_mysql_volume }}/my.cnf
 
 - name: start a MySQL container
-#  command: docker run -d -name mysql -v {{ ext_mysql_volume }}:/var/lib/mysql -v {{ ext_mysql_volume }}/my.cnf:/etc/mysql/my.cnf gitinsky/mysql:0.1.0
-  command: docker run -d -name mysql -v {{ ext_mysql_volume }}:/var/lib/mysql gitinsky/mysql:0.1.0
+  command: docker run -d -name mysql -v {{ ext_mysql_volume }}:/var/lib/mysql -v {{ ext_mysql_volume }}/my.cnf:/etc/mysql/my.cnf gitinsky/mysql:0.1.0
   when: result|failed

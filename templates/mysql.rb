@@ -6,6 +6,7 @@ Eye.application 'mysql' do
 
   process :mysql do
     pid_file '/var/run/mysql-eye.pid'
+    pre_start_command '/root/createdb.sh'
     start_command 'mysqld_safe'
 
     daemonize true
