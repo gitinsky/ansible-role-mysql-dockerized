@@ -1,0 +1,29 @@
+---
+- name: make a build dir
+  file: state=directory name=/root/mysql-dockerized
+
+- name: put Dockerfile
+  template: src=Dockerfile dest=/root/mysql-dockerized/Dockerfile
+
+- name: put mysql.rb
+  template: src=mysql.rb dest=/root/mysql-dockerized/mysql.rb
+
+- name: build a Docker image for MySQL
+  command: docker build -t gitinsky/mysql:0.1.0 --rm /root/mysql-dockerized
+
+- name: check if a MySQL container is started
+  command: bash -c "docker ps | grep mysql"
+  ignore_errors: True
+  register: result
+
+- name: chown MySQL volume
+  command: chown -R {{ mysql_uid }}:{{ mysql_gid }} {{ ext_mysql_volume }}
+  when: result|failed
+
+#- name: put my.cnf
+#  template: src=my.cnf dest={{ ext_mysql_volume }}/my.cnf
+
+- name: start a MySQL container
+#  command: docker run -d -name mysql -v {{ ext_mysql_volume }}:/var/lib/mysql -v {{ ext_mysql_volume }}/my.cnf:/etc/mysql/my.cnf gitinsky/mysql:0.1.0
+  command: docker run -d -name mysql -v {{ ext_mysql_volume }}:/var/lib/mysql gitinsky/mysql:0.1.0
+  when: result|failed

@@ -1,0 +1,6 @@
+---
+mysql_uid: 103
+mysql_gid: 106
+innodb_buffer_pool_size: 1024M
+max_connections: 200
+table_cache: 256
