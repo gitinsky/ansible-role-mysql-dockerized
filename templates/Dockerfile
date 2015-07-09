@@ -1,4 +1,4 @@
-FROM gitinsky/baseimage:0.1.1
+FROM gitinsky/baseimage:0.1.8
 MAINTAINER Git In Sky <support@gitinsky.com>
 
 RUN apt-get update && apt-get -y install mysql-server && bash -c "rm -rf /var/lib/mysql/*"
