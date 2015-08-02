@@ -12,7 +12,7 @@
   template: src=createdb.sh dest=/root/mysql-dockerized/createdb.sh mode=0755
 
 - name: build a Docker image for MySQL
-  command: docker build -t gitinsky/mysql:0.1.1 --rm /root/mysql-dockerized
+  command: docker build -t gitinsky/mysql:0.1.2 --rm /root/mysql-dockerized
 
 - name: tag it as latest
   command: docker build -t gitinsky/mysql:latest --rm /root/mysql-dockerized
