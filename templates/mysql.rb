@@ -10,7 +10,7 @@ Eye.application 'mysql' do
     start_command 'mysqld_safe'
 
     daemonize true
-    start_timeout 10.seconds
+    start_timeout 60.seconds
     stop_timeout 5.seconds
     trigger :transition, :to => :up, :from => :starting, :do => -> {
       process.execute_sync "/root/createdb.sh"
